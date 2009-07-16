@@ -1,0 +1,19 @@
+Copyright (C) 2009 JMM (jmimu@free.fr)
+
+
+Intro :
+	
+Compilation :
+	Needs SFML library (http://sfml-dev.org/).
+	Needs qmake.
+	Needs c++ gnu compiler
+	
+	qmake
+	make
+	
+Starting :
+	./yukon
+
+Instructions :
+	
+Controls :

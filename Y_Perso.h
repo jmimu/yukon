@@ -48,6 +48,7 @@ class Y_Perso: public Actor
 		bool throw_money(Y_Fire & fire);
 		void draw_infos(sf::RenderWindow & App,int x2,int y2);
 		int get_yelling(){return yelling;};
+		int nbr_bills;
 	protected:
 		float energy;//defines player's speed
 		int yelling;//time still yelling

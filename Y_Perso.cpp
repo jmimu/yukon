@@ -24,7 +24,7 @@
 
 
 Y_Perso::Y_Perso(int size_x,int size_y)
-	: Actor(size_x,size_y),energy(100),yelling(0),throwing(0)
+	: Actor(size_x,size_y),nbr_bills(50),energy(100),yelling(0),throwing(0)
 {
 	mass=0;
 	Animation *anim_stand=new Animation();
@@ -119,10 +119,10 @@ bool Y_Perso::update()//return true if object is deleted
 
 bool Y_Perso::yell()
 {
-	if ((yelling>0)||(energy<20)) return false;
+	if ((yelling>0)||(energy<50)) return false;
 	
 	yell_sound.Play();
-	yelling=20;
+	yelling=50;
 	set_position(Y_Perso::YELL,0);
 	if (fabs(target_x-x)>1) target_x=x;
 	speed_x=0;
@@ -132,10 +132,12 @@ bool Y_Perso::yell()
 
 bool Y_Perso::throw_money(Y_Fire & fire)
 {
+	if ((throwing>0)||(nbr_bills<=0)) return false;
 	set_position(Y_Perso::THROW,0);
 	throwing=20;
 	
 	fire.add_money();
+	nbr_bills--;
 	
 	return true;
 }
@@ -144,4 +146,5 @@ void Y_Perso::draw_infos(sf::RenderWindow & App,int x2,int y2)
 {
 	App.Draw(sf::Shape::Rectangle(x2-21, y2-59, x2+21, y2-58, sf::Color::Color(200,150,100,255) ));
 	App.Draw(sf::Shape::Rectangle(x2-20, y2-59, x2-20+energy/2.5, y2-58, sf::Color::Color(200-energy*2,0,energy*2,255) ));
+	std::cout<<nbr_bills<<std::endl;
 }

@@ -24,10 +24,13 @@
 
 
 Y_Level::Y_Level()
-  : Level()
+  : Level(),level_time(0),sky_color_r(255),sky_color_g(255),sky_color_b(255),sky_color_a(0),
+  moon_image(),moon_sprite()
 {
   std::cout<<"Create Y_Level\n";
   load_level();
+  moon_image.LoadFromFile("data/moon.png");
+  moon_sprite.SetImage(moon_image);
 }
 
 
@@ -61,3 +64,23 @@ bool Y_Level::load_level()
 
   return true;
 }
+
+void Y_Level::draw_fg(sf::RenderWindow & App)
+{
+	level_time+=0.001;
+	
+  sky_color_a=127*(cos(2*3.1516*level_time+3.1416)+1);
+  sky_color_r=127*(cos(2*3.1516*level_time       )+1);
+  sky_color_g=0;
+  sky_color_b=63*(cos(4*3.1516*level_time+3.1416)+1);
+
+  
+  fg[0].get_sprite()->SetColor(sf::Color(sky_color_r,sky_color_g,sky_color_b,sky_color_a));
+  
+  Level::draw_fg(App);
+  
+  moon_sprite.SetPosition(sin(2*3.1516*level_time*0.233)*400,cos(2*3.1516*level_time*0.233)*50-50);
+  App.Draw(moon_sprite);
+  //std::cout<<level_time<<std::endl;
+}
+

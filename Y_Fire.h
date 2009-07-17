@@ -30,7 +30,7 @@ class Y_Fire: public Anim_Sprite
 	public:
 		Y_Fire(int _pos_x);
 		virtual ~Y_Fire();
-
+		void init();
 		float get_intensity(){return intensity;};
 		int get_intensity_increase(){return intensity_increase;};
 		bool add_money();

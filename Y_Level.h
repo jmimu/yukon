@@ -32,8 +32,18 @@ class Y_Level: public Level
 		Y_Level();
 		virtual ~Y_Level();
 		bool load_level();
+		void draw_fg(sf::RenderWindow & App);
+
+		float level_time;
+
 	protected:
-		/* add your private declarations */
+		float sky_color_r;
+		float sky_color_g;
+		float sky_color_b;
+		float sky_color_a;
+		
+		sf::Image moon_image;
+		sf::Sprite moon_sprite;
 };
 
 #endif /* Y_Level_H */ 

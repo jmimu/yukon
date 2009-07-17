@@ -44,7 +44,7 @@ class Level {
 		
 		Camera* get_cam(){return &cam;};
 		void draw_bg(sf::RenderWindow & App);
-		void draw_fg(sf::RenderWindow & App);
+		virtual void draw_fg(sf::RenderWindow & App);
 		
 	protected:
 		std::vector <Ground_Plane> bg;//background
@@ -54,12 +54,6 @@ class Level {
 
 		float gravity_value;
 		std::list <Phys_Object *> objs;
-		float sky_color_r;
-		float sky_color_g;
-		float sky_color_b;
-		float sky_color_a;
-		
-		float t;
 };
 
 #endif /* LEVEL_H_ */

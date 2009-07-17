@@ -36,7 +36,9 @@ class Y_Game: public Game //the actual Game class
 		virtual ~Y_Game();
 		bool load_level();
 		bool run();//main loop return error ?
-
+		bool lost();
+		bool won();
+		
 		Y_Perso player;
 
 		Y_Fire spr_fire1;
@@ -45,6 +47,7 @@ class Y_Game: public Game //the actual Game class
 		std::vector <Y_Wolf*> wolves;	
 	
 	private:
+		sf::Font Cheeseburger;
 		
 };
 

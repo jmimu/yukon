@@ -53,7 +53,7 @@ void Ground_Plane::Load_Ground_Planes()
   images_bg.push_back(img1);
   
   sf::Image * img8=new sf::Image();
-  img8->LoadFromFile("data/sky2.png");
+  img8->LoadFromFile("data/sky3.png");
   images_fg.push_back(img8);
 }
 

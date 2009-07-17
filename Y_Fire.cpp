@@ -37,8 +37,8 @@ Y_Fire::~Y_Fire()
 
 bool Y_Fire::add_money()
 {
-	intensity+=30;
-	intensity_increase=20;
+	intensity+=50;
+	intensity_increase=40;
 	return true;
 }
 
@@ -52,6 +52,12 @@ void Y_Fire::update()//return true if object is deleted
 	SetScale(1,intensity/100.0);
 	if (intensity_increase>0) intensity_increase--;
 	//intensity-=0.5;
-	intensity/=1.003;
+	intensity/=1.002;
 	if (intensity<1) intensity=1;
+}
+
+void Y_Fire::init()
+{
+	intensity=100;
+	intensity_increase=0;
 }

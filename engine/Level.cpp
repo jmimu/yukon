@@ -25,7 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 using namespace std;
 
 Level::Level()
-  : cam(0,0,640,400,-500,-400,500,0),gravity_value(9.8),sky_color_r(255),sky_color_g(255),sky_color_b(255),sky_color_a(0)
+  : cam(0,0,640,400,-500,-400,500,0),gravity_value(9.8)
 {
 	std::cout<<"Create Level\n";
 	
@@ -77,15 +77,6 @@ void Level::draw_bg(sf::RenderWindow & App)
 
 void Level::draw_fg(sf::RenderWindow & App)
 {
-	t+=0.001;
-	
-  sky_color_a=127*(cos(2*3.1516*t+3.1416)+1);
-  sky_color_r=127*(cos(2*3.1516*t       )+1);
-  sky_color_g=0;
-  sky_color_b=63*(cos(4*3.1516*t+3.1416)+1);
-
-  
-  fg[0].get_sprite()->SetColor(sf::Color(sky_color_r,sky_color_g,sky_color_b,sky_color_a));
   for (unsigned int i=0;i<fg.size();i++)
     {
       fg[i].draw(App,cam);

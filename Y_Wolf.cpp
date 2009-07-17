@@ -134,7 +134,7 @@ bool Y_Wolf::update()//return true if object is deleted
 
 void Y_Wolf::draw_infos(sf::RenderWindow & App,int x2,int y2)
 {
-	App.Draw(sf::Shape::Rectangle(x2-20, y2-59-number, x2-20+stress/2.5, y2-58-number, sf::Color::Color(255,0,0,255) ));
+	//App.Draw(sf::Shape::Rectangle(x2-20, y2-59-number, x2-20+stress/2.5, y2-58-number, sf::Color::Color(255,0,0,255) ));
 }
 
 

@@ -38,13 +38,18 @@ class Y_Game: public Game //the actual Game class
 		bool run();//main loop return error ?
 		bool lost();
 		bool won();
-		
+		bool finished();
+		void fade_out(unsigned long duration);
 		Y_Perso player;
 
 		Y_Fire spr_fire1;
 		Y_Fire spr_fire2;	
 
 		std::vector <Y_Wolf*> wolves;	
+		
+		int night_number;
+		int nbr_bills_init;
+		int nbr_total_nights;
 	
 	private:
 		sf::Font Cheeseburger;

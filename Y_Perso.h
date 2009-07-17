@@ -23,6 +23,7 @@
 #ifndef Y_PERSO_H
 #define Y_PERSO_H
 #include <SFML/Audio.hpp>
+#include <sstream>
 
 #include "engine/Actor.h"
 
@@ -49,6 +50,8 @@ class Y_Perso: public Actor
 		void draw_infos(sf::RenderWindow & App,int x2,int y2);
 		int get_yelling(){return yelling;};
 		int nbr_bills;
+		void re_init();
+		std::string str_infos();
 	protected:
 		float energy;//defines player's speed
 		int yelling;//time still yelling

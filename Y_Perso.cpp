@@ -24,7 +24,7 @@
 
 
 Y_Perso::Y_Perso(int size_x,int size_y)
-	: Actor(size_x,size_y),nbr_bills(50),energy(100),yelling(0),throwing(0)
+	: Actor(size_x,size_y),nbr_bills(0),energy(100),yelling(0),throwing(0)
 {
 	mass=0;
 	Animation *anim_stand=new Animation();
@@ -117,6 +117,20 @@ bool Y_Perso::update()//return true if object is deleted
 	return ret;
 }
 
+std::string Y_Perso::str_infos()
+{
+	std::ostringstream oss;//output stream
+	oss<<"Bills:  "<<nbr_bills;
+	return oss.str();
+}
+
+void Y_Perso::re_init()
+{
+	energy=100;
+	yelling=0;
+	throwing=0;
+}
+
 bool Y_Perso::yell()
 {
 	if ((yelling>0)||(energy<50)) return false;
@@ -146,5 +160,5 @@ void Y_Perso::draw_infos(sf::RenderWindow & App,int x2,int y2)
 {
 	App.Draw(sf::Shape::Rectangle(x2-21, y2-59, x2+21, y2-58, sf::Color::Color(200,150,100,255) ));
 	App.Draw(sf::Shape::Rectangle(x2-20, y2-59, x2-20+energy/2.5, y2-58, sf::Color::Color(200-energy*2,0,energy*2,255) ));
-	std::cout<<nbr_bills<<std::endl;
+	//std::cout<<nbr_bills<<std::endl;
 }

@@ -52,7 +52,6 @@ class Y_Game: public Game //the actual Game class
 		int nbr_total_nights;
 	
 	private:
-		sf::Font Cheeseburger;
 		
 };
 

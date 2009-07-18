@@ -25,7 +25,7 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("R",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(5),Cheeseburger()
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(2)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();
@@ -44,7 +44,46 @@ Y_Game::Y_Game(float _FPS)
 		wolves[i]->y=180;
 		level->get_objs().push_back(wolves[i]);
 	}
-    Cheeseburger.LoadFromFile("data/cheeseburger.ttf");
+	
+	  sf::Image next_image;
+	  next_image.LoadFromFile("data/title.png");
+	  sf::Sprite next_sprite;
+	  next_sprite.SetImage(next_image);
+	  App.Draw(next_sprite);
+	  
+	  bool running1=true;
+	  bool running2=true;
+	  sf::Event Event;
+	  sf::String txt_begin;
+	  txt_begin.SetSize(25.f);
+	  txt_begin.SetColor(sf::Color(100,100, 200));
+	  txt_begin.SetPosition(240,290);
+	  txt_begin.SetText("* Left - Right : move\n* Down : stop\n* Up : yell\n* Space : add money");
+	  float wait=0;
+	  while (running2)
+	  {
+	    if (running1) App.Draw(next_sprite); else wait+=0.1;
+		App.Draw(txt_begin);
+		App.Display();
+		while (App.GetEvent(Event))
+		{
+		  if ((Event.Type==sf::Event::Closed)||((Event.Type==sf::Event::KeyPressed)&&(Event.Key.Code==sf::Key::Escape)))
+			running2=false;
+		  if ((!running1)&&(wait>2)&&((App.GetInput().IsKeyDown(sf::Key::Space))||(App.GetInput().IsKeyDown(sf::Key::Return)))) running2=false;
+		  if ((running1)&&((App.GetInput().IsKeyDown(sf::Key::Space))||(App.GetInput().IsKeyDown(sf::Key::Return))))
+		  {
+			  App.Clear();
+			  running1=false;
+	  		  txt_begin.SetText("After you hold up a bank in Dawson,\nyou ran through the deep,\nwild and snowy forest of Yukon.\n\nWhen night falls, you have to\nlight a fire to keep wolves away.\nBut there is few wood, and you'll\nhave to burn the money you stole!\n\nLiberty is 5 walking days away...\n\nGood luck!");
+			  txt_begin.SetSize(30.f);
+	  		  txt_begin.SetColor(sf::Color(150,150, 200));
+	  		  txt_begin.SetPosition(50,10);
+		  }
+		  
+	    }
+	  }
+
+	  fade_out(50);
 }
 
 
@@ -75,7 +114,6 @@ bool Y_Game::run()
   spr_fire2.y=180;
 
   sf::String txt_bills;
-  txt_bills.SetFont(Cheeseburger);
   txt_bills.SetSize(30.f);
   txt_bills.SetColor(sf::Color(10, 250, 10));
   txt_bills.SetText("Bills: ");
@@ -191,7 +229,6 @@ bool Y_Game::run()
 bool Y_Game::lost()
 {
 	  sf::String txt_end;
-	  txt_end.SetFont(Cheeseburger);
 	  txt_end.SetSize(20.f);
 	  txt_end.SetColor(sf::Color(200, 50, 50));
 	  txt_end.SetText("Game lost !\n");
@@ -202,7 +239,7 @@ bool Y_Game::lost()
 	  {
 		t=t+0.1;
 		txt_end.SetSize(50+5*sin(t));
-		txt_end.SetPosition(250.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
+		txt_end.SetPosition(150.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
 		level->draw(App,t);
 		App.Draw(txt_end);
 		App.Display();
@@ -210,19 +247,34 @@ bool Y_Game::lost()
 		{
 		  if ((Event.Type==sf::Event::Closed)||((Event.Type==sf::Event::KeyPressed)&&(Event.Key.Code==sf::Key::Escape)))
 			return true;
-		  if ((t>10)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Return))) running2=false;
 	    }
 	  }
 	  night_number=0;
 	  player.nbr_bills=nbr_bills_init;
 	  fade_out(100);
+	  
+	  
+	  sf::Image next_image;
+	  next_image.LoadFromFile("data/lost.png");
+	  sf::Sprite next_sprite;
+	  next_sprite.SetImage(next_image);
+	  App.Draw(next_sprite);
+	  txt_end.SetColor(sf::Color(100, 100, 200));
+	  txt_end.SetSize(40.f);
+	  txt_end.SetPosition(220, 330);
+	  txt_end.SetText("You have been eatten!\n");
+	  App.Draw(txt_end);
+	  App.Display();
+	  fade_out(100);
+
 	  return false;
 }
 
 bool Y_Game::won()
 {
 	  sf::String txt_end;
-	  txt_end.SetFont(Cheeseburger);
 	  txt_end.SetSize(20.f);
 	  txt_end.SetColor(sf::Color(50, 250, 50));
 	  txt_end.SetText("Night complete !\n");
@@ -233,7 +285,7 @@ bool Y_Game::won()
 	  {
 		t=t+0.1;
 		txt_end.SetSize(50+5*sin(t));
-		txt_end.SetPosition(250.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
+		txt_end.SetPosition(150.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
 		level->draw(App,t);
 		App.Draw(txt_end);
 		App.Display();
@@ -241,17 +293,32 @@ bool Y_Game::won()
 		{
 		  if ((Event.Type==sf::Event::Closed)||((Event.Type==sf::Event::KeyPressed)&&(Event.Key.Code==sf::Key::Escape)))
 			return true;
-		  if ((t>10)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Return))) running2=false;
 	    }
 	  }
 	  fade_out(100);
+	  
+	  sf::Image next_image;
+	  next_image.LoadFromFile("data/walk.png");
+	  sf::Sprite next_sprite;
+	  next_sprite.SetImage(next_image);
+	  App.Draw(next_sprite);
+	  txt_end.SetColor(sf::Color(100, 100, 200));
+	  txt_end.SetSize(30.f);
+	  txt_end.SetPosition(200,10);
+	  txt_end.SetText("Journey continues till next night...\n");
+	  App.Draw(txt_end);
+	  App.Display();
+	  fade_out(150);
+
+
 	  return false;
 }
 
 bool Y_Game::finished()
 {
 	  sf::String txt_end;
-	  txt_end.SetFont(Cheeseburger);
 	  txt_end.SetSize(20.f);
 	  txt_end.SetColor(sf::Color(50, 250, 50));
 	  txt_end.SetText("Game finished !\nFinal "+player.str_infos());
@@ -262,7 +329,7 @@ bool Y_Game::finished()
 	  {
 		t=t+0.1;
 		txt_end.SetSize(50+5*sin(t));
-		txt_end.SetPosition(250.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
+		txt_end.SetPosition(150.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
 		level->draw(App,t);
 		App.Draw(txt_end);
 		App.Display();
@@ -270,10 +337,55 @@ bool Y_Game::finished()
 		{
 		  if ((Event.Type==sf::Event::Closed)||((Event.Type==sf::Event::KeyPressed)&&(Event.Key.Code==sf::Key::Escape)))
 			return true;
-		  if ((t>10)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Space))) running2=false;
+		  if ((t>1)&&(App.GetInput().IsKeyDown(sf::Key::Return))) running2=false;
 	    }
 	  }
 	  fade_out(100);
+	  
+	  sf::Image next_image;
+	  if (player.nbr_bills==0)
+	  {
+	  	next_image.LoadFromFile("data/ending.png");
+		txt_end.SetText("With your money, you couldn't buy anything...");
+	  }
+	  else if (player.nbr_bills<=10)
+	  {
+	  	next_image.LoadFromFile("data/ending1.png");
+		txt_end.SetText("With your money, you can only buy a bad-taste chair...");
+	  }
+	  else if (player.nbr_bills<=25)
+	  {
+	  	next_image.LoadFromFile("data/ending2.png");
+		txt_end.SetText("With your money, you can buy a cabin...");
+	  }
+	  else
+	  {
+	  	next_image.LoadFromFile("data/ending3.png");
+		txt_end.SetText("With your money, you can buy a castel, bravo!");
+	  }
+
+	  sf::Sprite next_sprite;
+	  next_sprite.SetImage(next_image);
+	  running2=true;
+	  txt_end.SetSize(20.f);
+	  txt_end.SetPosition(100, 350);
+	  while (running2)
+	  {
+	    App.Draw(next_sprite);
+		App.Draw(txt_end);
+		App.Display();
+		while (App.GetEvent(Event))
+		{
+		  if ((Event.Type==sf::Event::Closed)||((Event.Type==sf::Event::KeyPressed)&&(Event.Key.Code==sf::Key::Escape)))
+			running2=false;
+		  if (App.GetInput().IsKeyDown(sf::Key::Space)) running2=false;
+		  if (App.GetInput().IsKeyDown(sf::Key::Return)) running2=false;
+	    }
+	  }
+
+	  fade_out(10);
+	  
 	  return true;
 }
 
@@ -282,7 +394,7 @@ void Y_Game::fade_out(unsigned long duration)
 	unsigned long t=0;
 	while (t<duration)
 	{
-		App.Draw(sf::Shape::Rectangle(0, 0, 640, 400, sf::Color::Color(0,0,0,2*255.0/duration+1) ));
+		App.Draw(sf::Shape::Rectangle(0, 0, 640, 400, sf::Color::Color(0,0,0,2*255.0/duration) ));
 		App.Display();
 		t++;
 	}

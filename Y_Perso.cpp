@@ -1,7 +1,7 @@
 /*
  *      Y_Perso.cpp
  *      
- *      Copyright 2009 jmmuller <jmmuller@jmmuller-laptop>
+ *      Copyright 2009 jmimu
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by

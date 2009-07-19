@@ -2,7 +2,7 @@
  * corbo.cpp
  *
  *  Created on: 14 juil. 2008
- *      Author: JMM
+ *      Author: jmimu
  */
 /*
 This program is free software; you can redistribute it and/or modify

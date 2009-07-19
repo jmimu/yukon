@@ -25,7 +25,7 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(90),nbr_total_nights(1),nbr_wolves_add(4)
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(90),nbr_total_nights(5),nbr_wolves_add(4)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();

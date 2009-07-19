@@ -25,21 +25,11 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(80),nbr_total_nights(5),nbr_wolves_add(4)
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(90),nbr_total_nights(1),nbr_wolves_add(4)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();
 	level->get_objs().push_back(&player);
-	/*for (unsigned int i=0;i<3;i++)
-	{
-		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		level->get_objs().push_back(wolves[i]);
-	}
-	for (unsigned int i=3;i<6;i++)
-	{
-		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		level->get_objs().push_back(wolves[i]);
-	}*/
 	
 	  sf::Image next_image;
 	  next_image.LoadFromFile("data/title.png");
@@ -58,6 +48,7 @@ Y_Game::Y_Game(float _FPS)
 	  float wait=0;
 	  while (running2)
 	  {
+		App.Clear();
 	    if (running1) App.Draw(next_sprite); else wait+=0.1;
 		App.Draw(txt_begin);
 		App.Display();
@@ -68,9 +59,8 @@ Y_Game::Y_Game(float _FPS)
 		  if ((!running1)&&(wait>2)&&((App.GetInput().IsKeyDown(sf::Key::Space))||(App.GetInput().IsKeyDown(sf::Key::Return)))) running2=false;
 		  if ((running1)&&((App.GetInput().IsKeyDown(sf::Key::Space))||(App.GetInput().IsKeyDown(sf::Key::Return))))
 		  {
-			  App.Clear();
 			  running1=false;
-	  		  txt_begin.SetText("After you hold up a bank in Dawson,\nyou ran through the deep, wild and\nsnowy White Agony Valley of Yukon.\n\nWhen night falls, you have to light\na fire to keep wolves away.\nBut there is few wood, and you have\nto burn the money you stole!\n\nLiberty is 5 walking days away...\n\nGood luck!");
+	  		  txt_begin.SetText("After you hold up a bank in Dawson,\nyou run through the deep, wild and\nsnowy White Agony Valley of Yukon.\n\nWhen night falls, you have to light\na fire to keep wolves away.\nBut there is few wood, and you have\nto sacrifice your stolen money!\n\nLiberty is 5 walking days away...\n\nGood luck!");
 			  txt_begin.SetSize(30.f);
 	  		  txt_begin.SetColor(sf::Color(150,150, 200));
 	  		  txt_begin.SetPosition(50,10);
@@ -113,7 +103,7 @@ bool Y_Game::run()
   txt_bills.SetSize(30.f);
   txt_bills.SetColor(sf::Color(10, 250, 10));
   txt_bills.SetText("Bills: ");
-  txt_bills.SetPosition(50,50);
+  txt_bills.SetPosition(150,20);
 
   night_number=0;
 
@@ -207,8 +197,8 @@ bool Y_Game::run()
 		  if (App.GetInput().IsKeyDown(sf::Key::Space))
 		  {
 			  bool res=false;
-			  if ((fabs(player.x-spr_fire1.get_pos_x())<1)&&(player.target_x==spr_fire1.get_pos_x())) res=player.throw_money(spr_fire1);
-			  if ((fabs(player.x-spr_fire2.get_pos_x())<1)&&(player.target_x==spr_fire2.get_pos_x())) res=player.throw_money(spr_fire2);
+			  if ((fabs(player.x-spr_fire1.get_pos_x())<2)&&(player.target_x==spr_fire1.get_pos_x())) res=player.throw_money(spr_fire1);
+			  if ((fabs(player.x-spr_fire2.get_pos_x())<2)&&(player.target_x==spr_fire2.get_pos_x())) res=player.throw_money(spr_fire2);
 			  if (res) 
 			  {
 				  Particle_Src<Particle> *money =new Particle_Src<Particle>(Particle::BILL,player.x,player.y,level->get_objs(),0,0 ,10,0,0,0,0,0,1,0);
@@ -229,7 +219,7 @@ bool Y_Game::run()
 		  }
 		  
 		  std::ostringstream oss;//output stream
-		  oss<<"Night number  "<<night_number<<"\n"<<player.str_infos();
+		  oss<<"Night number  "<<night_number<<"    "<<player.str_infos();
 		  txt_bills.SetText(oss.str());
 		   
 		  t+=0.2;
@@ -379,34 +369,36 @@ bool Y_Game::finished()
 	    }
 	  }
 	  fade_out(100);
+	  std::ostringstream oss;//output stream
+	  oss<<"With your "<<player.nbr_bills<<" bills left, ";
 	  
 	  sf::Image next_image;
-	  if (player.nbr_bills==0)
+	  if (player.nbr_bills<5)
 	  {
 	  	next_image.LoadFromFile("data/ending.png");
-		txt_end.SetText("With your money, you couldn't buy anything...");
+		txt_end.SetText(oss.str()+"you can't buy anything...");
 	  }
-	  else if (player.nbr_bills<=10)
+	  else if (player.nbr_bills<=15)
 	  {
 	  	next_image.LoadFromFile("data/ending1.png");
-		txt_end.SetText("With your money, you can only buy a bad-taste chair...");
+		txt_end.SetText(oss.str()+"you buy a bad-taste chair...");
 	  }
-	  else if (player.nbr_bills<=25)
+	  else if (player.nbr_bills<=30)
 	  {
 	  	next_image.LoadFromFile("data/ending2.png");
-		txt_end.SetText("With your money, you can buy a cabin...");
+		txt_end.SetText(oss.str()+"you can buy a hut...");
 	  }
 	  else
 	  {
 	  	next_image.LoadFromFile("data/ending3.png");
-		txt_end.SetText("With your money, you can buy a castel, bravo!");
+		txt_end.SetText(oss.str()+"you can buy a castle, bravo!");
 	  }
 
 	  sf::Sprite next_sprite;
 	  next_sprite.SetImage(next_image);
 	  running2=true;
-	  txt_end.SetSize(20.f);
-	  txt_end.SetPosition(100, 350);
+	  txt_end.SetSize(25.f);
+	  txt_end.SetPosition(50, 350);
 	  while (running2)
 	  {
 	    App.Draw(next_sprite);

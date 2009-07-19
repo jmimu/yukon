@@ -59,6 +59,8 @@ bool Y_Perso::update()//return true if object is deleted
 	if (throwing>0)
 	{
 		throwing--;
+		energy+=0.2;
+		if (energy>100) energy=100;
 		if (throwing>0)
 		{
 			return false;
@@ -75,7 +77,7 @@ bool Y_Perso::update()//return true if object is deleted
 		}else set_position(Y_Perso::STAND,0);
 	}
 
-	if ((target_x-x)>1)
+	if ((target_x-x)>2)
 	{
 		if (speed_x<0.01)
 		{
@@ -88,7 +90,7 @@ bool Y_Perso::update()//return true if object is deleted
 		speed_x/=1.3;
 		energy-=0.05;
 	}
-	else if ((target_x-x)<-1)
+	else if ((target_x-x)<-2)
 	{
 		if (speed_x>-0.01)
 		{
@@ -140,7 +142,7 @@ bool Y_Perso::yell()
 	yell_sound.Play();
 	yelling=80;
 	set_position(Y_Perso::YELL,0);
-	if (fabs(target_x-x)>1) target_x=x;
+	if (fabs(target_x-x)>2) target_x=x;
 	speed_x=0;
 	
 	return true;
@@ -161,7 +163,7 @@ bool Y_Perso::throw_money(Y_Fire & fire)
 
 void Y_Perso::draw_infos(sf::RenderWindow & App,int x2,int y2)
 {
-	App.Draw(sf::Shape::Rectangle(x2-21, y2-59, x2+21, y2-58, sf::Color::Color(200,150,100,255) ));
-	App.Draw(sf::Shape::Rectangle(x2-20, y2-59, x2-20+energy/2.5, y2-58, sf::Color::Color(200-energy*2,0,energy*2,255) ));
+	App.Draw(sf::Shape::Rectangle(x2-21, y2-60, x2+21, y2-58, sf::Color::Color(200,150,100,255) ));
+	App.Draw(sf::Shape::Rectangle(x2-20, y2-60, x2-20+energy/2.5, y2-58, sf::Color::Color(200-energy*2,0,energy*2,255) ));
 	//std::cout<<nbr_bills<<std::endl;
 }

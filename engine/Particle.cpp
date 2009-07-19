@@ -81,6 +81,7 @@ bool Particle::update()//return true if object is deleted
 	SetColor(sf::Color(255,255,255,alpha));
 	//change collision rectangle with scale ?
 	
+	if ((y<-500)||(y>500)||(x<-500)||(x>500)) return true;
 	if ((scale<0.01)||(alpha<1.0)) return true; //delete
 	
 	return false;	

@@ -84,7 +84,7 @@ bool Y_Perso::update()//return true if object is deleted
 			set_flipX(true);
 		}
 		
-		speed_x+=energy/20;
+		speed_x+=2+energy/20;
 		speed_x/=1.3;
 		energy-=0.1;
 	}
@@ -96,12 +96,12 @@ bool Y_Perso::update()//return true if object is deleted
 			set_position(Y_Perso::RUN,0);
 			set_flipX(false);
 		}
-		speed_x+=-energy/20;
+		speed_x+=-2-energy/20;
 		speed_x/=1.3;
 		energy-=0.1;
 	}else
 	{
-		energy+=0.5;
+		energy+=0.2;
 		if (energy>100) energy=100;
 		if (fabs(speed_x)>0.01) set_position(Y_Perso::STAND,0);
 		speed_x=0;
@@ -135,10 +135,10 @@ void Y_Perso::re_init()
 
 bool Y_Perso::yell()
 {
-	if ((yelling>0)||(energy<50)) return false;
+	if ((yelling>0)||(energy<80)) return false;
 	
 	yell_sound.Play();
-	yelling=50;
+	yelling=80;
 	set_position(Y_Perso::YELL,0);
 	if (fabs(target_x-x)>1) target_x=x;
 	speed_x=0;

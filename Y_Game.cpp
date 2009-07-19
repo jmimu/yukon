@@ -118,6 +118,20 @@ bool Y_Game::run()
   night_number=0;
   player.nbr_bills=nbr_bills_init;
 
+	  sf::Image next_image;
+	  next_image.LoadFromFile("data/walk.png");
+	  sf::Sprite next_sprite;
+	  next_sprite.SetImage(next_image);
+	  App.Draw(next_sprite);
+	  sf::String txt_end;
+	  txt_end.SetColor(sf::Color(100, 100, 200));
+	  txt_end.SetSize(30.f);
+	  txt_end.SetPosition(200,10);
+	  txt_end.SetText("This is the first night...\n");
+	  App.Draw(txt_end);
+	  App.Display();
+	  fade_out(150);
+
   bool quit_game=false;
   while (!quit_game)
   {

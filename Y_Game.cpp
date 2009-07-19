@@ -25,7 +25,7 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(5)
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(5),nbr_wolves_add(4)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();
@@ -135,6 +135,13 @@ bool Y_Game::run()
   bool quit_game=false;
   while (!quit_game)
   {
+		//add wolves every night
+		for (int i=0;i<nbr_wolves_add;i++)
+		{
+			wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
+			level->get_objs().push_back(wolves.back());
+		}
+
 		for (unsigned int i=0;i<wolves.size()/2;i++)
 		{
 			wolves[i]->x=-(rand() % 1000 + 500);
@@ -146,18 +153,7 @@ bool Y_Game::run()
 			wolves[i]->x=(rand() % 1000 + 500);
 			wolves[i]->y=180;
 		}
-		
-		//add 2 wolves every night
-		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		wolves.back()->x=-(rand() % 1000 + 500);
-		wolves.back()->y=180;
-		level->get_objs().push_back(wolves.back());
-
-		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		wolves.back()->x=(rand() % 1000 + 500);
-		wolves.back()->y=180;
-		level->get_objs().push_back(wolves.back());	
-		
+				
 		sf::SoundBuffer far_buffer;
 		far_buffer.LoadFromFile("data/sound/far2.ogg");
 		sf::Sound far_sound;

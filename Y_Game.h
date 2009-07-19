@@ -50,6 +50,7 @@ class Y_Game: public Game //the actual Game class
 		int night_number;
 		int nbr_bills_init;
 		int nbr_total_nights;
+		int nbr_wolves_add;//nbr of wolves added every night
 	
 	private:
 		

@@ -84,9 +84,9 @@ bool Y_Perso::update()//return true if object is deleted
 			set_flipX(true);
 		}
 		
-		speed_x+=2+energy/20;
+		speed_x+=3+energy/20;
 		speed_x/=1.3;
-		energy-=0.1;
+		energy-=0.05;
 	}
 	else if ((target_x-x)<-1)
 	{
@@ -96,9 +96,9 @@ bool Y_Perso::update()//return true if object is deleted
 			set_position(Y_Perso::RUN,0);
 			set_flipX(false);
 		}
-		speed_x+=-2-energy/20;
+		speed_x+=-3-energy/20;
 		speed_x/=1.3;
-		energy-=0.1;
+		energy-=0.05;
 	}else
 	{
 		energy+=0.2;

@@ -55,7 +55,7 @@ Y_Wolf::Y_Wolf(int size_x,int size_y,Y_Perso * _perso,Y_Fire * _fire1,Y_Fire * _
 Y_Wolf::~Y_Wolf()
 {
 	wolves.remove(this);
-	if (wolves.empty()) delete_all_anims();
+	//if (wolves.empty()) delete_all_anims();
 }
 
 
@@ -82,7 +82,7 @@ bool Y_Wolf::update()//return true if object is deleted
 		stress=(stress*10+						//previous
 			//(400-fabs(x))					//position
 			+perso->get_yelling()*1000		//yell
-			//+10*(fire1->get_intensity()+fire1->get_intensity_increase()*1000)/ sqrtf(fabs(x-fire1->get_pos_x()))
+			+1*(fire1->get_intensity()+fire1->get_intensity_increase()*100)/ sqrtf(fabs(x-fire1->get_pos_x()))
 			+10*(fire2->get_intensity()+fire2->get_intensity_increase()*1000)/ sqrtf(fabs(x-fire2->get_pos_x()))
 			-10*wolves_close
 			+ rand() % 400 - 200
@@ -93,8 +93,8 @@ bool Y_Wolf::update()//return true if object is deleted
 		stress=(stress*10+						//previous
 			//(400-fabs(x))					//position
 			+perso->get_yelling()*1000		//yell
-			+10*(fire1->get_intensity()+fire1->get_intensity_increase()*1000)/ sqrtf(fabs(x-fire1->get_pos_x()))
-			//+10*(fire2->get_intensity()+fire2->get_intensity_increase()*1000)/ sqrtf(fabs(x-fire2->get_pos_x()))
+			+10*(fire1->get_intensity()+fire1->get_intensity_increase()*100)/ sqrtf(fabs(x-fire1->get_pos_x()))
+			+1*(fire2->get_intensity()+fire2->get_intensity_increase()*1000)/ sqrtf(fabs(x-fire2->get_pos_x()))
 			-10*wolves_close
 			+ rand() % 400 - 200
 			)/11;

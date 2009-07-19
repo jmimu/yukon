@@ -67,7 +67,7 @@ bool Y_Level::load_level()
 
 void Y_Level::draw_fg(sf::RenderWindow & App)
 {
-	level_time+=0.001;
+	level_time+=0.0005;
 	
   sky_color_a=127*(cos(2*3.1516*level_time+3.1416)+1);
   sky_color_r=127*(cos(2*3.1516*level_time       )+1);

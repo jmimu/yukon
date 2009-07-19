@@ -25,21 +25,21 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(5),nbr_wolves_add(4)
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(80),nbr_total_nights(5),nbr_wolves_add(4)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();
 	level->get_objs().push_back(&player);
-	for (unsigned int i=0;i<5;i++)
+	/*for (unsigned int i=0;i<3;i++)
 	{
 		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
 		level->get_objs().push_back(wolves[i]);
 	}
-	for (unsigned int i=5;i<10;i++)
+	for (unsigned int i=3;i<6;i++)
 	{
 		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
 		level->get_objs().push_back(wolves[i]);
-	}
+	}*/
 	
 	  sf::Image next_image;
 	  next_image.LoadFromFile("data/title.png");
@@ -70,7 +70,7 @@ Y_Game::Y_Game(float _FPS)
 		  {
 			  App.Clear();
 			  running1=false;
-	  		  txt_begin.SetText("After you hold up a bank in Dawson,\nyou ran through the deep,\nwild and snowy forest of Yukon.\n\nWhen night falls, you have to\nlight a fire to keep wolves away.\nBut there is few wood, and you'll\nhave to burn the money you stole!\n\nLiberty is 5 walking days away...\n\nGood luck!");
+	  		  txt_begin.SetText("After you hold up a bank in Dawson,\nyou ran through the deep, wild and\nsnowy White Agony Valley of Yukon.\n\nWhen night falls, you have to light\na fire to keep wolves away.\nBut there is few wood, and you have\nto burn the money you stole!\n\nLiberty is 5 walking days away...\n\nGood luck!");
 			  txt_begin.SetSize(30.f);
 	  		  txt_begin.SetColor(sf::Color(150,150, 200));
 	  		  txt_begin.SetPosition(50,10);
@@ -116,6 +116,8 @@ bool Y_Game::run()
   txt_bills.SetPosition(50,50);
 
   night_number=0;
+
+  		
   player.nbr_bills=nbr_bills_init;
 
 	  sf::Image next_image;
@@ -133,9 +135,20 @@ bool Y_Game::run()
 	  fade_out(150);
 
   bool quit_game=false;
+  bool is_lost=false;
   while (!quit_game)
   {
 		//add wolves every night
+		if (is_lost)
+		{
+			for (unsigned int i=0;i<wolves.size();i++)
+			{
+				level->get_objs().remove(wolves[i]);
+				delete wolves[i];
+			}
+			wolves.resize(0);
+		}
+		
 		for (int i=0;i<nbr_wolves_add;i++)
 		{
 			wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
@@ -146,8 +159,7 @@ bool Y_Game::run()
 		{
 			wolves[i]->x=-(rand() % 1000 + 500);
 			wolves[i]->y=180;
-		}
-		
+		}	
 		for (unsigned int i=wolves.size()/2;i<wolves.size();i++)
 		{
 			wolves[i]->x=(rand() % 1000 + 500);
@@ -170,7 +182,7 @@ bool Y_Game::run()
 	  float t=0;
 	  int t_int=0;
 	  bool running=true;
-	  bool is_lost=false;
+	  is_lost=false;
 	  
 	  night_number++;
 	  
@@ -265,6 +277,7 @@ bool Y_Game::lost()
 		txt_end.SetSize(50+5*sin(t));
 		txt_end.SetPosition(150.f-(0+5*sin(t)), 150.f-(0+1.5*sin(t)));
 		level->draw(App,t);
+		  level->draw_fg(App);
 		App.Draw(txt_end);
 		App.Display();
 		while (App.GetEvent(Event))
@@ -278,7 +291,7 @@ bool Y_Game::lost()
 	  night_number=0;
 	  player.nbr_bills=nbr_bills_init;
 	  fade_out(100);
-	  
+  
 	  
 	  sf::Image next_image;
 	  next_image.LoadFromFile("data/lost.png");
@@ -301,7 +314,7 @@ bool Y_Game::won()
 	  sf::String txt_end;
 	  txt_end.SetSize(20.f);
 	  txt_end.SetColor(sf::Color(50, 250, 50));
-	  txt_end.SetText("Night complete !\n");
+	  txt_end.SetText("Night finished !\n");
 	  float t=0;
 	  bool running2=true;
 	  sf::Event Event;

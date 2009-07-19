@@ -58,6 +58,8 @@ class Y_Perso: public Actor
 		int throwing;//time still throwing
 		sf::SoundBuffer yell_buffer;
 		sf::Sound yell_sound;
+		sf::SoundBuffer fire_buffer;
+		sf::Sound fire_sound;
 };
 
 #endif /* Y_PERSO_H */ 

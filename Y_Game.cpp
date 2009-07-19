@@ -25,7 +25,7 @@
 using namespace std;
 
 Y_Game::Y_Game(float _FPS)
-	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(2)
+	: Game("Yukon",_FPS),player(0,0),spr_fire1(80),spr_fire2(-80),night_number(0),nbr_bills_init(50),nbr_total_nights(5)
 {
 	std::cout<<"Create Y_Game\n";	
 	load_level();
@@ -33,15 +33,11 @@ Y_Game::Y_Game(float _FPS)
 	for (unsigned int i=0;i<5;i++)
 	{
 		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		wolves[i]->x=-(rand() % 500 + 200);
-		wolves[i]->y=180;
 		level->get_objs().push_back(wolves[i]);
 	}
 	for (unsigned int i=5;i<10;i++)
 	{
 		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
-		wolves[i]->x=(rand() % 500 + 200);
-		wolves[i]->y=180;
 		level->get_objs().push_back(wolves[i]);
 	}
 	
@@ -125,16 +121,34 @@ bool Y_Game::run()
   bool quit_game=false;
   while (!quit_game)
   {
-		for (unsigned int i=0;i<5;i++)
+		for (unsigned int i=0;i<wolves.size()/2;i++)
 		{
-			wolves[i]->x=-(rand() % 500 + 200);
+			wolves[i]->x=-(rand() % 1000 + 500);
 			wolves[i]->y=180;
 		}
-		for (unsigned int i=5;i<10;i++)
+		
+		for (unsigned int i=wolves.size()/2;i<wolves.size();i++)
 		{
-			wolves[i]->x=(rand() % 500 + 200);
+			wolves[i]->x=(rand() % 1000 + 500);
 			wolves[i]->y=180;
-		}	
+		}
+		
+		//add 2 wolves every night
+		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
+		wolves.back()->x=-(rand() % 1000 + 500);
+		wolves.back()->y=180;
+		level->get_objs().push_back(wolves.back());
+
+		wolves.push_back(new Y_Wolf(0,0,&player,&spr_fire1,&spr_fire2));
+		wolves.back()->x=(rand() % 1000 + 500);
+		wolves.back()->y=180;
+		level->get_objs().push_back(wolves.back());	
+		
+		sf::SoundBuffer far_buffer;
+		far_buffer.LoadFromFile("data/sound/far2.ogg");
+		sf::Sound far_sound;
+		far_sound.SetBuffer(far_buffer);	
+		far_sound.Play();	
 			
 	  player.x=0;
 	  player.y=180;

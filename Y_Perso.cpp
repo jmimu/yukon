@@ -39,8 +39,10 @@ Y_Perso::Y_Perso(int size_x,int size_y)
 	Animation *anim_yell=new Animation();
 	anim_yell->load_animation("data/yell.png",45,45);
 	add_anim(anim_yell);
-	yell_buffer.LoadFromFile("data/sound/yell.wav");
+	yell_buffer.LoadFromFile("data/sound/leave2.ogg");
 	yell_sound.SetBuffer(yell_buffer);
+	fire_buffer.LoadFromFile("data/sound/burn2.ogg");
+	fire_sound.SetBuffer(fire_buffer);
 }
 
 
@@ -151,6 +153,7 @@ bool Y_Perso::throw_money(Y_Fire & fire)
 	throwing=20;
 	
 	fire.add_money();
+	fire_sound.Play();
 	nbr_bills--;
 	
 	return true;

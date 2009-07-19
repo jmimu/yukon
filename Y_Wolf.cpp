@@ -37,9 +37,9 @@ Y_Wolf::Y_Wolf(int size_x,int size_y,Y_Perso * _perso,Y_Fire * _fire1,Y_Fire * _
 	{
 		anim_wolf=new Animation();
 		anim_wolf->load_animation("data/wolf2.png",54,45);
-		w_yell_buffer.LoadFromFile("data/sound/wolf1.wav");
+		w_yell_buffer.LoadFromFile("data/sound/grrB2.ogg");
 		w_yell_sound.SetBuffer(w_yell_buffer);
-		w_stress_buffer.LoadFromFile("data/sound/wolf3.wav");
+		w_stress_buffer.LoadFromFile("data/sound/grr2.ogg");
 		w_stress_sound.SetBuffer(w_stress_buffer);
 	}
 	add_anim(anim_wolf);
@@ -61,7 +61,7 @@ Y_Wolf::~Y_Wolf()
 
 bool Y_Wolf::update()//return true if object is deleted
 {
-	if (rand()%1000==3) w_yell_sound.Play();
+	if (rand()%2000==3) w_yell_sound.Play();
 	
 	bool ret;
 	ret=Phys_Object::update();
@@ -127,7 +127,7 @@ bool Y_Wolf::update()//return true if object is deleted
 		speed_x=0;
 	}
 	
-	if (previous_stress*2<stress) w_stress_sound.Play();
+	if ((previous_stress*2<stress)&&(stress>100)) w_stress_sound.Play();
 	
 	return ret;
 }
